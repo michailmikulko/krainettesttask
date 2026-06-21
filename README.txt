@@ -40,7 +40,7 @@ After startup, database contains:
 ## How to Run
 
 git clone https://github.com/michailmikulko/krainettesttask.git
-cd Krainet2
+cd krainettesttask
 docker-compose up -d --build
 
 ## Services
