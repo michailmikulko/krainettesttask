@@ -39,7 +39,7 @@ After startup, database contains:
 
 ## How to Run
 
-git clone https://github.com/michailmikulko/Krainet2.git
+git clone https://github.com/michailmikulko/krainettesttask.git
 cd Krainet2
 docker-compose up -d --build
 
