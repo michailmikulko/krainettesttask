@@ -1,6 +1,7 @@
 package com.authService.exceptionHandler;
 
 import com.authService.dto.Error.ErrorResponse;
+import io.jsonwebtoken.JwtException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.websocket.AuthenticationException;
@@ -81,16 +82,15 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
     }
-    @ExceptionHandler(io.jsonwebtoken.JwtException.class)
-    public ErrorResponse handleJwtException(
-            io.jsonwebtoken.JwtException e
-    ) {
-        log.error("Handle JWT error", e);
+    @ExceptionHandler(JwtException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse handleJwtException(JwtException e) {
+        log.error("JWT error", e);
 
         return new ErrorResponse(
-                e.getMessage(),
-                HttpStatus.UNAUTHORIZED.value(),
-                LocalDateTime.now()
-        );
+                        e.getMessage(),
+                        HttpStatus.UNAUTHORIZED.value(),
+                        LocalDateTime.now()
+                );
     }
 }
