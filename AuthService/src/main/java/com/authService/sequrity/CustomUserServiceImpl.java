@@ -1,0 +1,21 @@
+package com.authService.sequrity;
+
+import com.authService.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class CustomUserServiceImpl implements UserDetailsService {
+    private final UserRepository userRepository;
+
+    @Override
+    @SneakyThrows
+    public CustomUserDetails loadUserByUsername(String email){
+        return userRepository.findByEmail(email).map(CustomUserDetails::new)
+                .orElseThrow(() -> new UsernameNotFoundException(email));
+    }
+}
