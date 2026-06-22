@@ -81,6 +81,7 @@ public class UserController {
     ) {
         userService.deleteUser(id);
     }
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @DeleteMapping("/me")
     @ResponseStatus(HttpStatus.OK)
     public void deleteMe(
