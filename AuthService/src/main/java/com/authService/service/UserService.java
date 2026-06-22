@@ -47,6 +47,7 @@ public class UserService {
                 .map(mapper::toResponse)
                 .toList();
     }
+
     @Transactional
     public UserResponse createUser(CreateUserRequest request) {
         log.info("Called createUser");
@@ -65,7 +66,7 @@ public class UserService {
 
     @Transactional
     public UserResponse updateUser(Long id, UpdateUserRequest request) {
-        log.info("Called updateUser id = {}", id);
+        log.info("Called updateUser id={}", id);
 
         UserEntity user = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
@@ -78,8 +79,11 @@ public class UserService {
 
         UserEntity saved = repository.save(user);
 
+        sendMessage(EventType.USER_UPDATED, saved.getEmail(), saved.getUsername());
+
         return mapper.toResponse(saved);
     }
+
     @Transactional
     public void deleteUser(Long id) {
         log.info("Called deleteUser id = {}", id);
@@ -90,20 +94,46 @@ public class UserService {
 
         repository.deleteById(id);
     }
+
     @Transactional
     public UserResponse updateMe(String email, UpdateMeRequest request) {
         log.info("Called updateMe");
 
         UserEntity user = repository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
         mapper.updateMeEntity(request, user);
+
         if (request.password() != null && !request.password().isBlank()) {
             user.setPassword(passwordEncoder.encode(request.password()));
         }
-        sendMessage(EventType.USER_UPDATED, request.email(), request.username());
 
-        return mapper.toResponse(repository.save(user));
+        UserEntity saved = repository.save(user);
+
+        sendMessage(EventType.USER_UPDATED, saved.getEmail(), saved.getUsername());
+
+        return mapper.toResponse(saved);
     }
+
+    public UserResponse getMe(String email) {
+        log.info("Called GetMe");
+
+        UserEntity user = repository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        return mapper.toResponse(user);
+    }
+
+    @Transactional
+    public void deleteMe(String email) {
+        log.info("Called deleteMe");
+
+        UserEntity userToDelete = repository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        sendMessage(EventType.USER_DELETED, userToDelete.getEmail(), userToDelete.getUsername());
+
+        repository.deleteById(userToDelete.getId());
+    }
+
     private void sendMessage(EventType eventType, String email, String username) {
         log.info("Called sendMessage");
         UserEvent event = new UserEvent(
@@ -113,5 +143,6 @@ public class UserService {
         );
         messageSender.send(event);
     }
+
 
 }

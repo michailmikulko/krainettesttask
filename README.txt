@@ -58,17 +58,20 @@ DataBase http://localhost:5432
 |------|-----|-------------|
 | POST | /auth/sign-in | Login user |
 | POST | /auth/refresh | Refresh JWT token |
+| POST | /user/registration | User registration |
 
 ### Users (Auth Service)
 
 | Method | URL | Role | Description |
 |------|-----|------|-------------|
-| GET | /users/{id} | USER/ADMIN | Get user by id |
-| GET | /users | ADMIN | Get all users |
-| POST | /users | USER | Create user |
-| PATCH | /users/{id} | USER/ADMIN | Update user |
-| DELETE | /users/{id} | USER/ADMIN | Delete user |
-| PATCH | /users/me | USER | Update own profile |
+| GET | /user/{id} | ADMIN | Get user by id |
+| GET | /user | ADMIN | Get all users |
+| POST | /user | USER | Create user |
+| PATCH | /user/{id} | ADMIN | Update user |
+| DELETE | /user/{id} | ADMIN | Delete user |
+| PATCH | /user/me | USER/ADMIN | Update own profile |
+| GET | /user/me | USER/ADMIN | Get own profile |
+| DELETE | /user/me | USER/ADMIN | Delete own profile |
 
 ## Example Requests
 

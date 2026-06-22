@@ -5,8 +5,10 @@ import com.authService.dto.request.UpdateMeRequest;
 import com.authService.dto.request.UpdateUserRequest;
 import com.authService.dto.response.UserResponse;
 import com.authService.entity.UserEntity;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
@@ -15,7 +17,9 @@ public interface UserMapper {
 
     UserEntity toEntity(CreateUserRequest request);
 
-    void updateMeEntity(UpdateMeRequest request, @MappingTarget UserEntity entity);
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateEntity(UpdateUserRequest request, @MappingTarget UserEntity user);
 
-    void updateEntity(UpdateUserRequest request, @MappingTarget UserEntity entity);
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateMeEntity(UpdateMeRequest request, @MappingTarget UserEntity user);
 }

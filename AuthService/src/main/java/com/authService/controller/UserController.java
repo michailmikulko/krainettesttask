@@ -29,7 +29,7 @@ public class UserController {
         return userService.createUser(request);
     }
 
-    @PreAuthorize("#id == authentication.principal.user.id or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserResponse getUserById(
@@ -37,7 +37,14 @@ public class UserController {
     ) {
         return userService.getUserById(id);
     }
-
+    @GetMapping("/me")
+    @ResponseStatus(HttpStatus.OK)
+    public UserResponse getMe(
+            Authentication authentication
+    ) {
+        String email = authentication.getName();
+        return userService.getMe(email);
+    }
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
@@ -66,13 +73,21 @@ public class UserController {
         return userService.updateMe(email, request);
     }
 
-    @PreAuthorize("#id == authentication.principal.user.id or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteUser(
             @PathVariable("id") Long id
     ) {
         userService.deleteUser(id);
+    }
+    @DeleteMapping("/me")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteMe(
+            Authentication authentication
+    ) {
+        String email = authentication.getName();
+        userService.deleteMe(email);
     }
 
 }
