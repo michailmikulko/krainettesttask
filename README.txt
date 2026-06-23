@@ -1,5 +1,11 @@
 This project is a microservice-based system consisting of two services:
 
+## How to Run
+
+1.Clone repository: git clone https://github.com/michailmikulko/krainettesttask.git
+2.Add `.env` file according to .env.example in root directory
+3.Run system: docker-compose up -d --build
+
 1. Auth Service
 Responsible for:
 - User authentication and authorization (JWT)
@@ -23,54 +29,11 @@ Responsible for:
 - Can view/update/delete any user
 - Receives notifications about USER actions
 
-## Business Logic
-
-1. User performs action (CREATE / UPDATE / DELETE)
-2. Auth Service saves changes to database
-3. Event is published to RabbitMQ
-4. Notification Service consumes event
-5. Email notification is sent to ADMIN users
-
 ##  Database Initialization
 
 After startup, database contains:
 - Test users
-- Admin account
-
-## How to Run
-
-git clone https://github.com/michailmikulko/krainettesttask.git
-cd krainettesttask
-Create `.env` file in root directory:
-docker-compose up -d --build
-
-## .env Example
-
-POSTGRES_DB=krainet
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=root
-
-SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/krainet
-SPRING_DATASOURCE_USERNAME=postgres
-SPRING_DATASOURCE_PASSWORD=root
-
-RABBITMQ_USER=guest
-RABBITMQ_PASSWORD=guest
-
-SPRING_RABBITMQ_HOST=rabbitmq
-SPRING_RABBITMQ_PORT=5672
-SPRING_RABBITMQ_USERNAME=guest
-SPRING_RABBITMQ_PASSWORD=guest
-
-QUEUE_NAME=user.Queue
-EXCHANGE_NAME=user.exchange
-
-MAIL_USERNAME=ooorandomcompany@gmail.com
-MAIL_PASSWORD=your_app_password
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-
-JWT_SECRET=your_secret
+- Admin account (Email:pmikulko2@gmail.com,password:1234)
 
 ## API Endpoints
 
@@ -88,7 +51,7 @@ JWT_SECRET=your_secret
 |------|-----|------|-------------|
 | GET | /user/{id} | ADMIN | Get user by id |
 | GET | /user | ADMIN | Get all users |
-| POST | /user | USER | Create user |
+| POST | /user | ADMIN | Create user |
 | PATCH | /user/{id} | ADMIN | Update user |
 | DELETE | /user/{id} | ADMIN | Delete user |
 | PATCH | /user/me | USER/ADMIN | Update own profile |
