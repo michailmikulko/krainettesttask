@@ -9,21 +9,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfiguration {
 
-    @Value("${queue.name}")
-    private String queueName;
-
-    @Value("${exchange.name}")
-    private String exchangeName;
-
     @Bean
-    public Queue queue() {
+    public Queue queue(@Value("${queue.name}") String queueName) {
         return QueueBuilder
                 .durable(queueName)
                 .build();
     }
 
     @Bean
-    public TopicExchange exchange() {
+    public TopicExchange exchange(@Value("${exchange.name}") String exchangeName) {
         return new TopicExchange(exchangeName);
     }
 

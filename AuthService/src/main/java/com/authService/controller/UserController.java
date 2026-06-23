@@ -75,7 +75,7 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(
             @PathVariable("id") Long id
     ) {
@@ -83,7 +83,7 @@ public class UserController {
     }
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @DeleteMapping("/me")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMe(
             Authentication authentication
     ) {

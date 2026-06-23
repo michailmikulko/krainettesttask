@@ -41,14 +41,36 @@ After startup, database contains:
 
 git clone https://github.com/michailmikulko/krainettesttask.git
 cd krainettesttask
+Create `.env` file in root directory:
 docker-compose up -d --build
 
-## Services
+## .env Example
 
-Auth Service http://localhost:8081
-Notification Service http://localhost:8082
-RabbitMQ UI	http://localhost:15672
-DataBase http://localhost:5432
+POSTGRES_DB=krainet
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=root
+
+SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/krainet
+SPRING_DATASOURCE_USERNAME=postgres
+SPRING_DATASOURCE_PASSWORD=root
+
+RABBITMQ_USER=guest
+RABBITMQ_PASSWORD=guest
+
+SPRING_RABBITMQ_HOST=rabbitmq
+SPRING_RABBITMQ_PORT=5672
+SPRING_RABBITMQ_USERNAME=guest
+SPRING_RABBITMQ_PASSWORD=guest
+
+QUEUE_NAME=user.Queue
+EXCHANGE_NAME=user.exchange
+
+MAIL_USERNAME=ooorandomcompany@gmail.com
+MAIL_PASSWORD=your_app_password
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+
+JWT_SECRET=your_secret
 
 ## API Endpoints
 

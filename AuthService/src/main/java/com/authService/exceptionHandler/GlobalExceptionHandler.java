@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleBadRequest(
-            IllegalArgumentException e
+            Exception e
     ) {
         log.error("Handle BadRequest", e);
         return new ErrorResponse(
